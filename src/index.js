@@ -1,49 +1,25 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // your code here
-  const newTaskForm = document.getElementById('create-task-form');
-  const newTaskDescription = document.getElementById('new-task-description');
-  const newTaskPriority = document.getElementById('new-task-priority');
+const taskForm = document.querySelector("#create-task-form");
+const taskList = document.querySelector("#tasks");
 
-  const newTaskUl = document.getElementById('tasks');
+taskForm.addEventListener('submit', function(event) {
+  event.preventDefault()
+  const newTask = document.querySelector('#new-task-description').value
+  taskList.innerHTML += `
+    <li>
+      ${newTask}
+      <button data-action="delete"> X for delete </button>
+    </li>
+    
+    `
 
-  newTaskForm.addEventListener("submit", createNewTask);
+  // const taskItem = document.createElement('li')
+  // taskItem.innerText = newTask
+  // taskList.appendChild(taskItem)
+  taskForm.reset()
+})
 
-  // const taskList = new TaskList();
-  
-  
-  // const newTaskForm = document.getElementById('create-task-form');
-  // const newTextDescription = document.getElementById('new-task-description');
-  // const newTaskPriority = document.getElementById('new-task-priority');
-
-  // const taskUl = document.getElementById('tasks');
-  // const renderApp = () => (taskUl.innerHTML = taskList.renderTasks());
-  
-  // new TaskForm.addEventListener("submit", function(event){
-  //   event.preventDefault();
-  //   taskList.createNewTask(newTaskDescription.value);
-  //   event.target.reset();
-  //   renderApp();
-  // });
-
-  // taskUl.addEventListener("click", (event) => {
-  //   if (event.target.nodeName === "BUTTON") {
-  //     taskList.deleteTask(event.target.dataset.description);
-  //     renderApp();
-  //   }
-  // });
-
-});
-
-
-const createNewTask = event => {
-  event.preventDefault();
-  const newTaskDescription = document.getElementById('new-task-description');
-  const newTask = document.createElement("li");
-  newTask.innerText = newTaskDescription.value;
-  appendNewTask(newTask);
-  event.target.reset();
-};
-
-const appendNewTask = task => {
-  document.getElementById('tasks').appendChild(task);
-};
+taskList.addEventListener('click', function(event) {
+  if (event.target.dataset.action === 'delete') {
+    event.target.parentElement.remove()
+  }
+})
